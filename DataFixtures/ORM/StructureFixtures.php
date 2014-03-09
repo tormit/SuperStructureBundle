@@ -12,7 +12,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Tormit\SuperStructureBundle\Entity\FrontendMenu;
+use Tormit\SuperStructureBundle\Entity\Menu;
 use Tormit\SuperStructureBundle\Entity\Structure;
 use Tormit\SymfonyHelpersBundle\LogUtil;
 
@@ -21,11 +21,11 @@ class StructureFixtures extends AbstractFixture implements OrderedFixtureInterfa
 
     function load(ObjectManager $manager)
     {
-        $menuRepo = $manager->getRepository('SuperStructureBundle:FrontendMenu');
-        /** @var $mainMenu FrontendMenu */
+        $menuRepo = $manager->getRepository('SuperStructureBundle:Menu');
+        /** @var $mainMenu Menu */
         $mainMenu = $menuRepo->findOneBy(array('name' => 'main'));
 
-        /** @var $languageMenu FrontendMenu */
+        /** @var $languageMenu Menu */
         $languageMenu = $menuRepo->findOneBy(array('name' => 'language'));
 
         $root = new Structure();
@@ -37,7 +37,7 @@ class StructureFixtures extends AbstractFixture implements OrderedFixtureInterfa
             $est->setTitle('Estonian');
             $est->setParent($root);
             $est->setSlug('est');
-            $languageMenu->getItems()->add($est);
+            $languageMenu->addNode($est);
 
 
             {
@@ -45,7 +45,7 @@ class StructureFixtures extends AbstractFixture implements OrderedFixtureInterfa
                 $kontakt->setTitle('Kontakt');
                 $kontakt->setContent('<h1>Võta meiega ühendust 555-6768</h1>');
                 $kontakt->setParent($est);
-                $mainMenu->getItems()->add($kontakt);
+                $mainMenu->addNode($kontakt);
             }
         }
 
@@ -54,14 +54,14 @@ class StructureFixtures extends AbstractFixture implements OrderedFixtureInterfa
             $eng->setTitle('English');
             $eng->setParent($root);
             $eng->setSlug('eng');
-            $languageMenu->getItems()->add($eng);
+            $languageMenu->addNode($eng);
 
             {
                 $contact = new Structure();
                 $contact->setTitle('Contact');
                 $contact->setContent('<h1>Contact us 555-6768</h1>');
                 $contact->setParent($eng);
-                $mainMenu->getItems()->add($contact);
+                $mainMenu->addNode($contact);
             }
         }
 

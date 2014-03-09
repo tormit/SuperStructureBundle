@@ -1,0 +1,33 @@
+{
+    "name": "tormit/super-structure-bundle",
+    "type": "symfony-bundle",
+    "description": "Super structure. Web app foundation.",
+    "keywords": ["structure", "bundle"],
+    "homepage": "https://github.com/tormit/SuperStructureBundle",
+    "license": "GPL v2",
+    "authors": [
+        {
+            "name": "Tormi Talv",
+            "email": "tormit@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "require-dev": {
+        "symfony/symfony": "2.3.*",        
+        "symfony/monolog-bundle": "2.3.*",
+        "doctrine/orm": ">=2.2.3,<2.4-dev",        
+        "doctrine/doctrine-bundle": "1.2.*",
+        "doctrine/data-fixtures": "1.0.*@dev",
+        "doctrine/doctrine-fixtures-bundle": "dev-master",
+        "stof/doctrine-extensions-bundle": "1.1.*@dev",
+    },
+    "autoload": {
+        "psr-0": {
+            "Tormit\\SuperStructureBundle": ""
+        }
+    },
+    "minimum-stability": "dev",
+    "target-dir": "Tormit/SuperStructureBundle"
+}

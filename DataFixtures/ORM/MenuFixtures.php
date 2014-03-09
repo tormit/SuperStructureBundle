@@ -12,9 +12,9 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\Doctrine;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Tormit\SuperStructureBundle\Entity\FrontendMenu;
+use Tormit\SuperStructureBundle\Entity\Menu;
 
-class FrontendMenuFixtures extends AbstractFixture implements OrderedFixtureInterface
+class MenuFixtures extends AbstractFixture implements OrderedFixtureInterface
 {
 
     /**
@@ -24,11 +24,11 @@ class FrontendMenuFixtures extends AbstractFixture implements OrderedFixtureInte
      */
     function load(ObjectManager $manager)
     {
-        $mainMenu = new FrontendMenu();
+        $mainMenu = new Menu();
         $mainMenu->setName('main');
         $mainMenu->setTitle('Main menu');
 
-        $language = new FrontendMenu();
+        $language = new Menu();
         $language->setName('language');
         $language->setTitle('Language menu');
 

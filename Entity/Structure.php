@@ -18,7 +18,7 @@ use Tormit\SymfonyHelpersBundle\LogUtil;
  * @ORM\Table(name="structure")
  * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
  */
-class Structure implements EntityControllerInterface, RoutedEntity
+class Structure implements RoutedEntity
 {
 
     /**
@@ -88,7 +88,7 @@ class Structure implements EntityControllerInterface, RoutedEntity
     private $slugPath;
 
     /**
-     * @ORM\ManyToMany(targetEntity="FrontendMenu", mappedBy="nodes")
+     * @ORM\ManyToMany(targetEntity="Menu", mappedBy="nodes")
      */
     private $menus;
 

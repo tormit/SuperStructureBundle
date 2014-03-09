@@ -15,7 +15,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Route
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -30,10 +29,6 @@ class Route
      * @ORM\Column(name="object_slug", type="string")
      */
     protected $objectSlug;
-    /**
-     * @ORM\Column(name="full_entity_class", type="string")
-     */
-    protected $fullEntityClass;
     /**
      * @ORM\Column(name="entity_class", type="string")
      */
@@ -114,22 +109,6 @@ class Route
     public function getRoute()
     {
         return $this->route;
-    }
-
-    /**
-     * @param string $class Class name
-     */
-    public function setFullEntityClass($class)
-    {
-        $this->fullEntityClass = $class;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFullEntityClass()
-    {
-        return $this->fullEntityClass;
     }
 
     /**

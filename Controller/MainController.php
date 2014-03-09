@@ -18,64 +18,30 @@ class MainController extends Controller
     const API_RSS = 'rss';
 
     protected $route;
+    protected $request;
+    protected $em;
 
-    // this will come from database
-    private $routeRepo = array(
-        '/' => '',
-        '/est' => '',
-        '/est/list' => '',
-        '/est/list/item' => '',
-    );
+    protected function init()
+    {
+        $this->request = $this->getRequest();
+        $this->em = $this->getDoctrine()->getManager();
+    }
 
     public function viewAction()
     {
-        $this->route = '/' . $this->getRequest()->get('p1');
-        if ($this->getRequest()->get('p2') !== false) {
-            $this->route .= '/' . $this->getRequest()->get('p2');
-        }
-        if ($this->getRequest()->get('p3') !== false) {
-            $this->route .= '/' . $this->getRequest()->get('p3');
-        }
-        if ($this->getRequest()->get('p4') !== false) {
-            $this->route .= '/' . $this->getRequest()->get('p4');
-        }
-        if ($this->getRequest()->get('p5') !== false) {
-            $this->route .= '/' . $this->getRequest()->get('p5');
-        }
-        LogUtil::debug($this->route);
+        $this->init();
 
-        $em = $this->getDoctrine()->getManager();
-        $rRepo = $em->getRepository('SuperStructureBundle:Route');
-
-        $route = $rRepo->findOneBy(array('route' => $this->route));
-
-        // identify object
-        if (!($route instanceof Route)) {
-            throw new NotFoundHttpException('Route not found');
-        }
-
-        // find object
-        $objRepo = $em->getRepository(sprintf('%s:%s', $route->getBundle(), $route->getEntityClass()));
-        /** @var $routeObj EntityControllerInterface */
-        $routeObj = $objRepo->findOneBy(array('slug' => $route->getObjectSlug()));
+        $route = $this->findRoute();
+        $routeObject = $this->findRouteObject($route);
 
         // respond view
-        if ($routeObj) {
+        if ($routeObject) {
             return $this->forward(
-                sprintf('%s:%s:object', $routeObj->getBundleName(), $routeObj->getControllerName()),
-                array('objectClass' => $route->getEntityClass(), 'bundleName' => $route->getBundle(), 'objectSlug' => $route->getObjectSlug())
+                        sprintf('%s:%s:object', $routeObject->getBundleName(), $routeObject->getControllerName()),
+                        array('objectClass' => $route->getEntityClass(), 'bundleName' => $route->getBundle(), 'objectSlug' => $route->getObjectSlug())
             );
-        }
-
-        if (!isset($this->routeRepo[$this->route])) {
-            throw new NotFoundHttpException('Dont know how to handle this page.');
-        }
-
-        $action = $this->routeRepo[$this->route];
-        if (empty($action)) {
-            return $this->render('SuperStructureBundle:Main:index.html.twig', array('route' => $this->route));
         } else {
-            return $this->$action();
+
         }
     }
 
@@ -91,5 +57,49 @@ class MainController extends Controller
         }
 
         return $res;
+    }
+
+    /**
+     * @return Route
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    protected function findRoute()
+    {
+        $this->route = '/' . $this->request->get('p1');
+        if ($this->request->get('p2') !== false) {
+            $this->route .= '/' . $this->request->get('p2');
+        }
+        if ($this->request->get('p3') !== false) {
+            $this->route .= '/' . $this->request->get('p3');
+        }
+        if ($this->request->get('p4') !== false) {
+            $this->route .= '/' . $this->request->get('p4');
+        }
+        if ($this->request->get('p5') !== false) {
+            $this->route .= '/' . $this->request->get('p5');
+        }
+
+
+        $routeRepository = $this->em->getRepository('SuperStructureBundle:Route');
+
+        $route = $routeRepository->findOneBy(array('route' => $this->route));
+
+        // identify object
+        if (!($route instanceof Route)) {
+            throw new NotFoundHttpException('Route not found');
+        }
+        return $route;
+    }
+
+    /**
+     * @param $route
+     * @return EntityControllerInterface
+     */
+    protected function findRouteObject(Route $route)
+    {
+        $objRepo = $this->em->getRepository(sprintf('%s:%s', $route->getBundle(), $route->getEntityClass()));
+        /** @var $routeObject EntityControllerInterface */
+        $routeObject = $objRepo->findOneBy(array('slug' => $route->getObjectSlug()));
+        return $routeObject;
     }
 }

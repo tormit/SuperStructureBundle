@@ -8,8 +8,6 @@
 namespace Tormit\SuperStructureBundle\Interfaces;
 
 
-use Tormit\SuperStructureBundle\Entity\Route;
-
 interface RoutedEntity
 {
     public function setRouteTargetEntity(RoutedEntity $entity);
@@ -17,5 +15,11 @@ interface RoutedEntity
     public function getRouteTargetEntity();
 
     public function getRoutePath();
+
+    public function getControllerName();
+
+    public function getBundleName();
+
+    public function getSlug();
 
 }

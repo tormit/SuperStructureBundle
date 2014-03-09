@@ -4,3 +4,6 @@ super_structure_api:
 super_structure_main:
     pattern:  /{p1}/{p2}/{p3}/{p4}/{p5}
     defaults: { _controller: SuperStructureBundle:Main:view, p1: '', p2: false, p3: false, p4: false, p5: false }
+#super_structure_main_default:
+#    pattern:  /{p1}/{p2}/{p3}/{p4}/{p5}
+#    defaults: { _controller: SuperStructureBundle:Main:view, p1: '', p2: false, p3: false, p4: false, p5: false }
