@@ -59,9 +59,6 @@ class SuperstructureEvents
         //$route = $routeRepo->findOneBy(array('objectSlug' => $node->getSlug(), 'entityClass' => get_class($node)));
         $route = $routeRepo->findOneBy(array('route' => $nodePathAsRoute));
 
-//        LogUtil::debug($nodePathAsRoute);
-//        LogUtil::debug(get_class($route));
-
         if (!isset(self::$pathCached[$node->getId()])) {
             $node->setSlugPath($pathParts);
 
@@ -87,7 +84,6 @@ class SuperstructureEvents
         if (!($route instanceof Route)) {
             $route = new Route();
             $route->setRoute($nodePathAsRoute);
-            $route->setFullEntityClass(get_class($node));
             $route->setEntityClass($className);
             $route->setBundle($bundleName);
             $route->setObjectSlug($node->getSlug());

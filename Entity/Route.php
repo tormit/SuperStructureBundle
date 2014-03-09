@@ -42,6 +42,10 @@ class Route
      */
     protected $layout;
     /**
+     * @ORM\Column(name="content_type", type="string", length=100, nullable=true)
+     */
+    protected $contentType = 'text/html';
+    /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected $view;
@@ -196,4 +200,27 @@ class Route
         return $this->getTargetRoute() !== null;
     }
 
+
+    /**
+     * Set contentType
+     *
+     * @param string $contentType
+     * @return Route
+     */
+    public function setContentType($contentType)
+    {
+        $this->contentType = $contentType;
+    
+        return $this;
+    }
+
+    /**
+     * Get contentType
+     *
+     * @return string 
+     */
+    public function getContentType()
+    {
+        return $this->contentType;
+    }
 }

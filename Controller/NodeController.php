@@ -8,14 +8,21 @@
 namespace Tormit\SuperStructureBundle\Controller;
 
 
+use Tormit\SuperStructureBundle\Entity\Route;
+
 class NodeController extends ObjectController
 {
-    public function objectAction($objectClass, $bundleName, $objectSlug)
+    public function objectAction($objectClass, $bundleName, $objectSlug, Route $route)
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository(sprintf('%s:%s', $bundleName, $objectClass));
         $obj = $repo->findOneBy(array('slug' => $objectSlug));
 
-        return $this->render('SuperStructureBundle:Node:node.html.twig', array('node' => $obj));
+        $layout = $route->getLayout();
+        if (empty($layout)) {
+            $layout = 'SuperStructureBundle::layout.html.twig';
+        }
+
+        return $this->render('SuperStructureBundle:Node:node.html.twig', array('node' => $obj, 'layout' => $layout));
     }
 }

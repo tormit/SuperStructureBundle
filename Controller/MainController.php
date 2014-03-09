@@ -9,6 +9,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tormit\SuperStructureBundle\Entity\Route;
 use Tormit\SuperStructureBundle\Interfaces\EntityControllerInterface;
+use Tormit\SuperStructureBundle\Interfaces\RoutedEntity;
 use Tormit\SymfonyHelpersBundle\LogUtil;
 
 class MainController extends Controller
@@ -32,13 +33,13 @@ class MainController extends Controller
         $this->init();
 
         $route = $this->findRoute();
-        $routeObject = $this->findRouteObject($route);
+        $routeedObject = $this->findRouteObject($route);
 
         // respond view
-        if ($routeObject) {
+        if ($routeedObject instanceof RoutedEntity) {
             return $this->forward(
-                        sprintf('%s:%s:object', $routeObject->getBundleName(), $routeObject->getControllerName()),
-                        array('objectClass' => $route->getEntityClass(), 'bundleName' => $route->getBundle(), 'objectSlug' => $route->getObjectSlug())
+                        sprintf('%s:%s:object', $routeedObject->getBundleName(), $routeedObject->getControllerName()),
+                        array('objectClass' => $route->getEntityClass(), 'bundleName' => $route->getBundle(), 'objectSlug' => $route->getObjectSlug(), 'route' => $route)
             );
         } else {
 
@@ -93,7 +94,7 @@ class MainController extends Controller
 
     /**
      * @param $route
-     * @return EntityControllerInterface
+     * @return RoutedEntity
      */
     protected function findRouteObject(Route $route)
     {
