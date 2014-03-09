@@ -1,0 +1,6 @@
+super_structure_api:
+    pattern:  /api/{widgetSlug}/{nodeSlug}/{type}
+    defaults: { _controller: SuperStructureBundle:Main:api, type: json }
+super_structure_main:
+    pattern:  /{p1}/{p2}/{p3}/{p4}/{p5}
+    defaults: { _controller: SuperStructureBundle:Main:view, p1: '', p2: false, p3: false, p4: false, p5: false }

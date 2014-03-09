@@ -1,0 +1,10 @@
+{% extends 'SuperStructureBundle::layout.html.twig' %}
+{% block title %}
+    {{ node.title }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ node.title }}</h1>
+
+    {{ node.content|raw }}
+{% endblock body %}

@@ -1,0 +1,7 @@
+parameters:
+#    super_structure.example.class: Tormit\SuperStructureBundle\Example
+
+services:
+#    super_structure.example:
+#        class: %super_structure.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
