@@ -2,6 +2,9 @@ parameters:
 #    super_structure.example.class: Tormit\SuperStructureBundle\Example
 
 services:
-#    super_structure.example:
-#        class: %super_structure.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+  superstructure.structure:
+    class: Tormit\SuperStructureBundle\EventListener\SuperstructureEvents
+    tags:
+        - { name: doctrine.event_listener, event: postPersist }
+        - { name: doctrine.event_listener, event: postUpdate }
+        - { name: doctrine.event_listener, event: postRemove }

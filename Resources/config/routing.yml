@@ -7,3 +7,7 @@ super_structure_main:
 #super_structure_main_default:
 #    pattern:  /{p1}/{p2}/{p3}/{p4}/{p5}
 #    defaults: { _controller: SuperStructureBundle:Main:view, p1: '', p2: false, p3: false, p4: false, p5: false }
+
+
+#super_structure:
+#    resource: "@SuperStructureBundle/Resources/config/routing.yml"

@@ -9,9 +9,7 @@ namespace Tormit\SuperStructureBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
-use Tormit\SuperStructureBundle\Interfaces\EntityControllerInterface;
 use Tormit\SuperStructureBundle\Interfaces\RoutedEntity;
-use Tormit\SymfonyHelpersBundle\LogUtil;
 
 /**
  * @Gedmo\Tree(type="nested")
@@ -80,7 +78,6 @@ class Structure implements RoutedEntity
      * @ORM\Column(length=255, unique=true)
      */
     private $slug;
-
 
     /**
      * @ORM\Column(name="slug_path", type="array")
@@ -258,7 +255,7 @@ class Structure implements RoutedEntity
     /**
      * @param mixed $slugPath
      */
-    public function setSlugPath($slugPath)
+    public function setSlugPath(array $slugPath)
     {
         $this->slugPath = $slugPath;
     }

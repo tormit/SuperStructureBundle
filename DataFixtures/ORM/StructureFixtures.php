@@ -9,12 +9,10 @@ namespace Tormit\SuperStructureBundle\DataFixtures\ORM;
 
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Tormit\SuperStructureBundle\Entity\Menu;
 use Tormit\SuperStructureBundle\Entity\Structure;
-use Tormit\SymfonyHelpersBundle\LogUtil;
 
 class StructureFixtures extends AbstractFixture implements OrderedFixtureInterface
 {

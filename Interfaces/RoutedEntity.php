@@ -22,4 +22,8 @@ interface RoutedEntity
 
     public function getSlug();
 
+    public function getSlugPath();
+
+    public function setSlugPath(array $slugPath);
+
 }
