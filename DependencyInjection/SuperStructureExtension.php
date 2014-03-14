@@ -1,6 +1,6 @@
 <?php
 
-namespace Tormit\SuperStructureBundle\DependencyInjection;
+namespace Tormit\Bundle\SuperStructureBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

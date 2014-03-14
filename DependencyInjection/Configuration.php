@@ -1,6 +1,6 @@
 <?php
 
-namespace Tormit\SuperStructureBundle\DependencyInjection;
+namespace Tormit\Bundle\SuperStructureBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

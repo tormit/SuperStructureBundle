@@ -1,6 +1,6 @@
 <?php
 
-namespace Tormit\SuperStructureBundle\Tests\Controller;
+namespace Tormit\Bundle\SuperStructureBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

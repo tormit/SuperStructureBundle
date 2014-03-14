@@ -5,7 +5,7 @@
  * @version 1.0
  */
 
-namespace Tormit\SuperStructureBundle\Interfaces;
+namespace Tormit\Bundle\SuperStructureBundle\Interfaces;
 
 
 interface RoutedEntity

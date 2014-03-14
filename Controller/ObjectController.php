@@ -5,11 +5,11 @@
  * @version 1.0
  */
 
-namespace Tormit\SuperStructureBundle\Controller;
+namespace Tormit\Bundle\SuperStructureBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Tormit\SuperStructureBundle\Entity\Route;
+use Tormit\Bundle\SuperStructureBundle\Entity\Route;
 
 abstract class ObjectController extends Controller
 {

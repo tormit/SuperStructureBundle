@@ -1,10 +1,14 @@
 parameters:
-#    super_structure.example.class: Tormit\SuperStructureBundle\Example
+#    super_structure.example.class: Tormit\Bundle\SuperStructureBundle\Example
 
 services:
   superstructure.structure:
-    class: Tormit\SuperStructureBundle\EventListener\SuperstructureEvents
+    class: Tormit\Bundle\SuperStructureBundle\EventListener\SuperstructureEvents
     tags:
         - { name: doctrine.event_listener, event: postPersist }
         - { name: doctrine.event_listener, event: postUpdate }
         - { name: doctrine.event_listener, event: postRemove }
+  superstructure.routing_loader:
+        class: Acme\DemoBundle\Routing\ExtraLoader
+        tags:
+            - { name: routing.loader }

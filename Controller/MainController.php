@@ -1,15 +1,15 @@
 <?php
 
-namespace Tormit\SuperStructureBundle\Controller;
+namespace Tormit\Bundle\SuperStructureBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Tormit\SuperStructureBundle\Entity\Route;
-use Tormit\SuperStructureBundle\Interfaces\EntityControllerInterface;
-use Tormit\SuperStructureBundle\Interfaces\RoutedEntity;
+use Tormit\Bundle\SuperStructureBundle\Entity\Route;
+use Tormit\Bundle\SuperStructureBundle\Interfaces\EntityControllerInterface;
+use Tormit\Bundle\SuperStructureBundle\Interfaces\RoutedEntity;
 use Tormit\SymfonyHelpersBundle\LogUtil;
 
 class MainController extends Controller
