@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Tormit\\SuperStructureBundle": ""
+            "Tormit\\Bundle\\SuperStructureBundle": ""
         }
     },
     "minimum-stability": "dev",

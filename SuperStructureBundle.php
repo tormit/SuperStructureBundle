@@ -1,6 +1,6 @@
 <?php
 
-namespace Tormit\SuperStructureBundle;
+namespace Tormit\Bundle\SuperStructureBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
