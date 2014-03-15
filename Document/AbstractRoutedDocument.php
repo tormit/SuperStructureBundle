@@ -13,11 +13,15 @@ use Tormit\Bundle\SuperStructureBundle\Interfaces\RoutedDocument;
 
 class AbstractRoutedDocument
 {
-    protected $identifiedMethod = 'getSlug';
+    protected $identifierMethod = 'getSlug';
 
     public function getIdentifier()
     {
-        return $this->{$this->identifiedMethod}();
+        if (method_exists($this, $this->identifierMethod)) {
+            return $this->{$this->identifierMethod}();
+        }
+
+        throw new \BadMethodCallException(sprintf('Identifier method "%s" not implemented on routed document "%s"', $this->identifierMethod, get_class($this)));
     }
 
     public function listenerPostPersist(RoutedDocument $document, LifecycleEventArgs $args)

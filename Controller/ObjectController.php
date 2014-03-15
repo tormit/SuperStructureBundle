@@ -9,9 +9,10 @@ namespace Tormit\Bundle\SuperStructureBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Tormit\Bundle\SuperStructureBundle\Entity\Route;
+use Tormit\Bundle\SuperStructureBundle\Document\Route;
+use Tormit\Bundle\SuperStructureBundle\Interfaces\RoutedDocument;
 
 abstract class ObjectController extends Controller
 {
-    abstract public function objectAction($objectClass, $bundleName, $objectSlug, Route $route);
+    abstract public function objectAction(RoutedDocument $document, Route $route);
 }

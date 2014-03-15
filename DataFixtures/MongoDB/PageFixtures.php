@@ -24,6 +24,7 @@ class PageFixtures extends AbstractFixture implements OrderedFixtureInterface
      */
     function load(ObjectManager $manager)
     {
+        Route::make($manager, array());
         $page = new Page();
         $page->setTitle('Avaleht');
         $page->setContent('Tere tulemast!');
@@ -31,13 +32,15 @@ class PageFixtures extends AbstractFixture implements OrderedFixtureInterface
         $page2 = new Page();
         $page2->setTitle('Tooted');
         $page2->setContent(
-              'The 12.5" ThinkPad X240 Ultrabook™ is thin, light, built to last, and ready for business. Power Bridge technology lets you go ten or more hours without plugging in, vPro gives you the ultimate in manageability, and plenty of other features let you take your business on the road.'
+              'Tootekataloog'
         );
 
         $manager->persist($page);
         $manager->persist($page2);
 
         $manager->flush();
+        Route::make($manager, array($page));
+        Route::make($manager, array($page2));
         Route::make($manager, array($page, $page2));
         $manager->flush();
     }

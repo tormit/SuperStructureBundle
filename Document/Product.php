@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Tormi Talv <tormit@gmail.com> 2014
- * @since 3/14/14 2:16 PM
+ * @since 3/15/14 11:22 AM
  * @version 1.0
  */
 
@@ -15,7 +15,7 @@ use Tormit\Bundle\SuperStructureBundle\Interfaces\RoutedDocument;
  * @MongoDB\Document
  * @package Tormit\Bundle\SuperStructureBundle\Document
  */
-class Page extends AbstractRoutedDocument implements RoutedDocument
+class Product extends AbstractRoutedDocument implements RoutedDocument
 {
     /**
      * @MongoDB\Id
@@ -25,18 +25,29 @@ class Page extends AbstractRoutedDocument implements RoutedDocument
     /**
      * @MongoDB\String
      */
-    private $title;
+    private $name;
 
     /**
      * @MongoDB\String
      */
-    private $content;
+    private $description;
 
     /**
      * @MongoDB\String
-     * @Gedmo\Slug(fields={"title"})
+     * @Gedmo\Slug(fields={"name"})
      */
     private $slug;
+
+
+    public function getControllerName()
+    {
+        return 'Product';
+    }
+
+    public function getBundleName()
+    {
+        return 'SuperStructureBundle';
+    }
 
     /**
      * Get id
@@ -49,57 +60,47 @@ class Page extends AbstractRoutedDocument implements RoutedDocument
     }
 
     /**
-     * Set title
+     * Get name
      *
-     * @param string $title
+     * @return string $name
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
      * @return self
      */
-    public function setTitle($title)
+    public function setName($name)
     {
-        $this->title = $title;
+        $this->name = $name;
         return $this;
     }
 
     /**
-     * Get title
+     * Get description
      *
-     * @return string $title
+     * @return string $description
      */
-    public function getTitle()
+    public function getDescription()
     {
-        return $this->title;
+        return $this->description;
     }
 
     /**
-     * Set content
+     * Set description
      *
-     * @param string $content
+     * @param string $description
      * @return self
      */
-    public function setContent($content)
+    public function setDescription($description)
     {
-        $this->content = $content;
+        $this->description = $description;
         return $this;
-    }
-
-    /**
-     * Get content
-     *
-     * @return string $content
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    public function getControllerName()
-    {
-        return 'Page';
-    }
-
-    public function getBundleName()
-    {
-        return 'SuperStructureBundle';
     }
 
     /**

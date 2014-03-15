@@ -2,15 +2,12 @@
 
 namespace Tormit\Bundle\SuperStructureBundle\Controller;
 
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Tormit\Bundle\SuperStructureBundle\Entity\Route;
-use Tormit\Bundle\SuperStructureBundle\Interfaces\EntityControllerInterface;
+use Tormit\Bundle\SuperStructureBundle\Document\Route;
 use Tormit\Bundle\SuperStructureBundle\Interfaces\RoutedDocument;
-use Tormit\SymfonyHelpersBundle\LogUtil;
 
 class MainController extends Controller
 {
@@ -19,45 +16,37 @@ class MainController extends Controller
     const API_RSS = 'rss';
 
     protected $route;
+    /**
+     * @var Request
+     */
     protected $request;
+    /**
+     * @var DocumentManager
+     */
     protected $em;
 
-    protected function init()
+    protected function init(Request $request)
     {
-        $this->request = $this->getRequest();
-        $this->em = $this->getDoctrine()->getManager();
+        $this->request = $request;
+        $this->em = $this->get('doctrine_mongodb')->getManager();
     }
 
-    public function viewAction()
+    public function viewAction(Request $request)
     {
-        $this->init();
+        $this->init($request);
 
         $route = $this->findRoute();
-        $routeedObject = $this->findRouteObject($route);
+        $routedDocument = $route->getLeaf();
 
         // respond view
-        if ($routeedObject instanceof RoutedDocument) {
+        if ($routedDocument instanceof RoutedDocument) {
             return $this->forward(
-                        sprintf('%s:%s:object', $routeedObject->getBundleName(), $routeedObject->getControllerName()),
-                        array('objectClass' => $route->getEntityClass(), 'bundleName' => $route->getBundle(), 'objectSlug' => $route->getObjectSlug(), 'route' => $route)
+                        sprintf('%s:%s:object', $routedDocument->getBundleName(), $routedDocument->getControllerName()),
+                        array('document' => $routedDocument, 'route' => $route)
             );
         } else {
 
         }
-    }
-
-    public function apiAction()
-    {
-        $res = null;
-        switch ($this->getRequest()->get('type')) {
-            case self::API_JSON:
-                $res = new JsonResponse();
-                break;
-            default:
-                throw new BadRequestHttpException('Cannot handle this type');
-        }
-
-        return $res;
     }
 
     /**
@@ -66,41 +55,22 @@ class MainController extends Controller
      */
     protected function findRoute()
     {
-        $this->route = '/' . $this->request->get('p1');
-        if ($this->request->get('p2') !== false) {
-            $this->route .= '/' . $this->request->get('p2');
+        $this->route = '/';
+        $routeParts = array();
+        for ($i = 1; $i <= Route::ROUTE_SEGMENTS_COUNT; $i++) {
+            $partValue = $this->request->get('p' . $i);
+            if (!empty($partValue)) {
+                $routeParts[] = $partValue;
+            }
         }
-        if ($this->request->get('p3') !== false) {
-            $this->route .= '/' . $this->request->get('p3');
-        }
-        if ($this->request->get('p4') !== false) {
-            $this->route .= '/' . $this->request->get('p4');
-        }
-        if ($this->request->get('p5') !== false) {
-            $this->route .= '/' . $this->request->get('p5');
-        }
+        $this->route .= implode('/', $routeParts);
 
-
-        $routeRepository = $this->em->getRepository('SuperStructureBundle:Route');
-
-        $route = $routeRepository->findOneBy(array('route' => $this->route));
+        $route = $this->em->getRepository('SuperStructureBundle:Route')->findOneBy(array('route' => $this->route));
 
         // identify object
         if (!($route instanceof Route)) {
             throw new NotFoundHttpException('Route not found');
         }
         return $route;
-    }
-
-    /**
-     * @param $route
-     * @return RoutedDocument
-     */
-    protected function findRouteObject(Route $route)
-    {
-        $objRepo = $this->em->getRepository(sprintf('%s:%s', $route->getBundle(), $route->getEntityClass()));
-        /** @var $routeObject EntityControllerInterface */
-        $routeObject = $objRepo->findOneBy(array('slug' => $route->getObjectSlug()));
-        return $routeObject;
     }
 }

@@ -36,6 +36,7 @@ class SuperStructure implements LoaderInterface
         // prepare a new route
         $pattern = '/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}';
         $defaults = array(
+            '_controller' => 'SuperStructureBundle:Main:view',
             'p1' => '',
             'p2' => false,
             'p3' => false,
@@ -51,8 +52,7 @@ class SuperStructure implements LoaderInterface
         $route = new Route($pattern, $defaults, $requirements);
 
         // add the new route to the route collection:
-        $routeName = 'super_structure_main';
-        $routes->add($routeName, $route);
+        $routes->add('super_structure_main', $route);
 
         $this->loaded = true;
 
@@ -69,7 +69,7 @@ class SuperStructure implements LoaderInterface
      */
     public function supports($resource, $type = null)
     {
-        return 'extra' === $type;
+        return 'superstructure' === $type;
     }
 
     /**
