@@ -9,6 +9,7 @@ namespace Tormit\Bundle\SuperStructureBundle\Interfaces;
 
 
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
+use Tormit\Bundle\SuperStructureBundle\Document\Route;
 
 interface RoutedDocument
 {
@@ -18,5 +19,13 @@ interface RoutedDocument
 
     public function getIdentifier();
 
+    public function getRoutes();
+
+    public function addRoute(Route $route);
+
+    public function removeRoute(Route $route);
+
     public function listenerPostPersist(RoutedDocument $document, LifecycleEventArgs $args);
+
+    public function listenerPostRemove(RoutedDocument $document, LifecycleEventArgs $args);
 }

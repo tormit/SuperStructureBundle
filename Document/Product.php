@@ -7,6 +7,7 @@
 
 namespace Tormit\Bundle\SuperStructureBundle\Document;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Tormit\Bundle\SuperStructureBundle\Interfaces\RoutedDocument;
@@ -38,6 +39,15 @@ class Product extends AbstractRoutedDocument implements RoutedDocument
      */
     private $slug;
 
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="Route")
+     */
+    private $routes;
+
+    public function __construct()
+    {
+        $this->routes = new ArrayCollection();
+    }
 
     public function getControllerName()
     {
@@ -104,6 +114,16 @@ class Product extends AbstractRoutedDocument implements RoutedDocument
     }
 
     /**
+     * Get slug
+     *
+     * @return string $slug
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
      * Set slug
      *
      * @param string $slug
@@ -115,13 +135,29 @@ class Product extends AbstractRoutedDocument implements RoutedDocument
         return $this;
     }
 
-    /**
-     * Get slug
-     *
-     * @return string $slug
-     */
-    public function getSlug()
+    public function getRoutes()
     {
-        return $this->slug;
+        return $this->routes;
     }
+
+    /**
+     * Add route
+     *
+     * @param Route $route
+     */
+    public function addRoute(Route $route)
+    {
+        $this->routes[] = $route;
+    }
+
+    /**
+     * Remove route
+     *
+     * @param Route $route
+     */
+    public function removeRoute(Route $route)
+    {
+        $this->routes->removeElement($route);
+    }
+
 }

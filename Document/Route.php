@@ -10,7 +10,6 @@ namespace Tormit\Bundle\SuperStructureBundle\Document;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Tormit\Bundle\SuperStructureBundle\Interfaces\RoutedDocument;
 
 /**
@@ -45,6 +44,16 @@ class Route
      * @MongoDB\String
      */
     private $view;
+
+    /**
+     * @MongoDB\Boolean
+     */
+    private $is_active = true;
+
+    /**
+     * @MongoDB\Boolean
+     */
+    private $is_valid = true;
 
     /**
      * @MongoDB\ReferenceOne
@@ -178,7 +187,7 @@ class Route
      * @param $leaf
      * @return self
      */
-    public function setLeaf($leaf)
+    public function setLeaf(RoutedDocument $leaf)
     {
         $this->leaf = $leaf;
         return $this;
@@ -244,9 +253,12 @@ class Route
      * @param $object1
      * @return self
      */
-    public function setObject1($object1)
+    public function setObject1(RoutedDocument $object1 = null)
     {
         $this->object1 = $object1;
+        if ($object1 !== null) {
+            $object1->addRoute($this);
+        }
         return $this;
     }
 
@@ -266,9 +278,12 @@ class Route
      * @param $object2
      * @return self
      */
-    public function setObject2($object2)
+    public function setObject2(RoutedDocument $object2 = null)
     {
         $this->object2 = $object2;
+        if ($object2 !== null) {
+            $object2->addRoute($this);
+        }
         return $this;
     }
 
@@ -288,9 +303,12 @@ class Route
      * @param $object3
      * @return self
      */
-    public function setObject3($object3)
+    public function setObject3(RoutedDocument $object3 = null)
     {
         $this->object3 = $object3;
+        if ($object3 !== null) {
+            $object3->addRoute($this);
+        }
         return $this;
     }
 
@@ -310,9 +328,12 @@ class Route
      * @param $object4
      * @return self
      */
-    public function setObject4($object4)
+    public function setObject4(RoutedDocument $object4 = null)
     {
         $this->object4 = $object4;
+        if ($object4 !== null) {
+            $object4->addRoute($this);
+        }
         return $this;
     }
 
@@ -332,9 +353,12 @@ class Route
      * @param $object5
      * @return self
      */
-    public function setObject5($object5)
+    public function setObject5(RoutedDocument $object5 = null)
     {
         $this->object5 = $object5;
+        if ($object5 !== null) {
+            $object5->addRoute($this);
+        }
         return $this;
     }
 
@@ -354,9 +378,12 @@ class Route
      * @param $object6
      * @return self
      */
-    public function setObject6($object6)
+    public function setObject6(RoutedDocument $object6 = null)
     {
         $this->object6 = $object6;
+        if ($object6 !== null) {
+            $object6->addRoute($this);
+        }
         return $this;
     }
 
@@ -376,9 +403,12 @@ class Route
      * @param $object7
      * @return self
      */
-    public function setObject7($object7)
+    public function setObject7(RoutedDocument $object7 = null)
     {
         $this->object7 = $object7;
+        if ($object7 !== null) {
+            $object7->addRoute($this);
+        }
         return $this;
     }
 
@@ -398,9 +428,12 @@ class Route
      * @param $object8
      * @return self
      */
-    public function setObject8($object8)
+    public function setObject8(RoutedDocument $object8 = null)
     {
         $this->object8 = $object8;
+        if ($object8 !== null) {
+            $object8->addRoute($this);
+        }
         return $this;
     }
 
@@ -420,9 +453,12 @@ class Route
      * @param $object9
      * @return self
      */
-    public function setObject9($object9)
+    public function setObject9(RoutedDocument $object9 = null)
     {
         $this->object9 = $object9;
+        if ($object9 !== null) {
+            $object9->addRoute($this);
+        }
         return $this;
     }
 
@@ -442,9 +478,56 @@ class Route
      * @param $object10
      * @return self
      */
-    public function setObject10($object10)
+    public function setObject10(RoutedDocument $object10 = null)
     {
         $this->object10 = $object10;
+        if ($object10 !== null) {
+            $object10->addRoute($this);
+        }
         return $this;
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     * @return self
+     */
+    public function setIsActive($isActive)
+    {
+        $this->is_active = $isActive;
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean $isActive
+     */
+    public function getIsActive()
+    {
+        return $this->is_active;
+    }
+
+    /**
+     * Set isValid
+     *
+     * @param boolean $isValid
+     * @return self
+     */
+    public function setIsValid($isValid)
+    {
+        $this->is_valid = $isValid;
+        return $this;
+    }
+
+    /**
+     * Get isValid
+     *
+     * @return boolean $isValid
+     */
+    public function getIsValid()
+    {
+        return $this->is_valid;
     }
 }

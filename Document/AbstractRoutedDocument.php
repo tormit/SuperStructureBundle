@@ -24,6 +24,18 @@ class AbstractRoutedDocument
         throw new \BadMethodCallException(sprintf('Identifier method "%s" not implemented on routed document "%s"', $this->identifierMethod, get_class($this)));
     }
 
+    public function listenerPostRemove(RoutedDocument $document, LifecycleEventArgs $args)
+    {
+        $dm = $args->getDocumentManager();
+        /** @var $route Route */
+        foreach ($document->getRoutes() as $route) {
+            $route->setIsValid(false);
+            $dm->persist($route);
+        }
+
+        $dm->flush();
+    }
+
     public function listenerPostPersist(RoutedDocument $document, LifecycleEventArgs $args)
     {
 //        $route = new Route();

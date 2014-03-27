@@ -20,6 +20,14 @@ class RouteListener
         if ($document instanceof RoutedDocument) {
             $document->listenerPostPersist($document, $args);
         }
+    }
 
+    public function postRemove(LifecycleEventArgs $args)
+    {
+        $document = $args->getDocument();
+
+        if ($document instanceof RoutedDocument) {
+            $document->listenerPostRemove($document, $args);
+        }
     }
 } 

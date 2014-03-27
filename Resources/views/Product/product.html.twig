@@ -1,0 +1,10 @@
+{% extends layout %}
+{% block title %}
+    {{ product.name }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ product.name }}</h1>
+
+    {{ product.description|raw }}
+{% endblock body %}

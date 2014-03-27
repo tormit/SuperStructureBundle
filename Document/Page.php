@@ -7,6 +7,7 @@
 
 namespace Tormit\Bundle\SuperStructureBundle\Document;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Tormit\Bundle\SuperStructureBundle\Interfaces\RoutedDocument;
@@ -39,6 +40,17 @@ class Page extends AbstractRoutedDocument implements RoutedDocument
     private $slug;
 
     /**
+     * @MongoDB\ReferenceMany(targetDocument="Route")
+     * @var ArrayCollection
+     */
+    private $routes;
+
+    public function __construct()
+    {
+        $this->routes = new ArrayCollection();
+    }
+
+    /**
      * Get id
      *
      * @return MongoDB\ObjectId $id
@@ -46,6 +58,16 @@ class Page extends AbstractRoutedDocument implements RoutedDocument
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string $title
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     /**
@@ -61,13 +83,13 @@ class Page extends AbstractRoutedDocument implements RoutedDocument
     }
 
     /**
-     * Get title
+     * Get content
      *
-     * @return string $title
+     * @return string $content
      */
-    public function getTitle()
+    public function getContent()
     {
-        return $this->title;
+        return $this->content;
     }
 
     /**
@@ -82,16 +104,6 @@ class Page extends AbstractRoutedDocument implements RoutedDocument
         return $this;
     }
 
-    /**
-     * Get content
-     *
-     * @return string $content
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
-
     public function getControllerName()
     {
         return 'Page';
@@ -100,6 +112,16 @@ class Page extends AbstractRoutedDocument implements RoutedDocument
     public function getBundleName()
     {
         return 'SuperStructureBundle';
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string $slug
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 
     /**
@@ -114,13 +136,28 @@ class Page extends AbstractRoutedDocument implements RoutedDocument
         return $this;
     }
 
-    /**
-     * Get slug
-     *
-     * @return string $slug
-     */
-    public function getSlug()
+    public function getRoutes()
     {
-        return $this->slug;
+        return $this->routes;
+    }
+
+    /**
+     * Add route
+     *
+     * @param Route $route
+     */
+    public function addRoute(Route $route)
+    {
+        $this->routes[] = $route;
+    }
+
+    /**
+     * Remove route
+     *
+     * @param Route $route
+     */
+    public function removeRoute(Route $route)
+    {
+        $this->routes->removeElement($route);
     }
 }
