@@ -22,4 +22,9 @@ class ProductController extends ObjectController
 
         return $this->render('SuperStructureBundle:Product:product.html.twig', array('product' => $document, 'layout' => $layout));
     }
+
+    public function vcMarkFavoriteAction()
+    {
+        return $this->render('SuperStructureBundle:Product:fav.html.twig');
+    }
 }

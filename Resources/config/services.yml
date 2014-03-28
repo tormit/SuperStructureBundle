@@ -11,4 +11,14 @@ services:
         class: Tormit\Bundle\SuperStructureBundle\Routing\SuperStructure
         tags:
             - { name: routing.loader }
+  superstructure.twig.extension:
+        class: Tormit\Bundle\SuperStructureBundle\Twig\SuperStructureTwigExtension
+        arguments: [@service_container]
+        tags:
+          - { name: twig.extension }
+  superstructure.context:
+        class: Tormit\Bundle\SuperStructureBundle\Context\SuperStructureContext
+        arguments: [@service_container]
+#        tags:
+#          - { name: twig.extension }
 

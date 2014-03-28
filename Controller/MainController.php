@@ -7,8 +7,10 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Tormit\Bundle\SuperStructureBundle\Context\SuperStructureContext;
 use Tormit\Bundle\SuperStructureBundle\Document\Route;
 use Tormit\Bundle\SuperStructureBundle\Interfaces\RoutedDocument;
+use Tormit\SymfonyHelpersBundle\Util\Util;
 
 class MainController extends Controller
 {
@@ -43,8 +45,13 @@ class MainController extends Controller
             return $this->redirect($this->generateUrl('super_structure_main'));
         }
 
+
         // respond view
         if ($routedDocument instanceof RoutedDocument) {
+            /** @var $ctx SuperStructureContext */
+            $ctx = $this->get('superstructure.context');
+            $ctx->setRoute($route);
+
             return $this->forward(
                         sprintf('%s:%s:object', $routedDocument->getBundleName(), $routedDocument->getControllerName()),
                         array('document' => $routedDocument, 'route' => $route)
@@ -69,6 +76,11 @@ class MainController extends Controller
             }
         }
         $this->requestedRoute .= implode('/', $routeParts);
+
+        $exts = array('js' => 'js', 'css' => 'css');
+        if (isset($exts[Util::findExt($this->requestedRoute)])) {
+            throw new NotFoundHttpException('Resource not found');
+        }
 
         $route = $this->em->getRepository('SuperStructureBundle:Route')->findOneBy(array('route' => $this->requestedRoute));
 

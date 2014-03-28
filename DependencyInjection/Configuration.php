@@ -14,6 +14,7 @@ class Configuration implements ConfigurationInterface
 {
     /**
      * {@inheritDoc}
+     * @deprecated
      */
     public function getConfigTreeBuilder()
     {
