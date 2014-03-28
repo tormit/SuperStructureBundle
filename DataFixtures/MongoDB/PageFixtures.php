@@ -24,7 +24,6 @@ class PageFixtures extends AbstractFixture implements OrderedFixtureInterface
      */
     function load(ObjectManager $manager)
     {
-        Route::make($manager, array());
         $page = new Page();
         $page->setTitle('Avaleht');
         $page->setContent('Tere tulemast!');
@@ -39,6 +38,7 @@ class PageFixtures extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($page2);
 
         $manager->flush();
+        Route::makeRoot($manager, $page);
         Route::make($manager, array($page));
         Route::make($manager, array($page2));
         Route::make($manager, array($page, $page2));

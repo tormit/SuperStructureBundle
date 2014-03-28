@@ -139,6 +139,23 @@ class Route
         $dm->flush();
     }
 
+    public static function makeRoot(ObjectManager $dm, RoutedDocument $object)
+    {
+        $routePathString = '/';
+
+        $routeObj = $dm->getRepository('SuperStructureBundle:Route')->findOneBy(array('route' => $routePathString));
+        if (!($routeObj instanceof Route)) {
+            $routeObj = new self();
+            $routeObj->setRoute($routePathString);
+        }
+
+        $routeObj->setObject1($object);
+        $routeObj->setLeaf($object);
+
+        $dm->persist($routeObj);
+        $dm->flush();
+    }
+
     /**
      * Get id
      *

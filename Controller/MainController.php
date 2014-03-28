@@ -3,6 +3,7 @@
 namespace Tormit\Bundle\SuperStructureBundle\Controller;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -15,7 +16,7 @@ class MainController extends Controller
     const API_XML = 'xml';
     const API_RSS = 'rss';
 
-    protected $route;
+    protected $requestedRoute;
     /**
      * @var Request
      */
@@ -38,6 +39,10 @@ class MainController extends Controller
         $route = $this->findRoute();
         $routedDocument = $route->getLeaf();
 
+        if ($this->requestedRoute !== $route->getRoute()) {
+            return $this->redirect($this->generateUrl('super_structure_main'));
+        }
+
         // respond view
         if ($routedDocument instanceof RoutedDocument) {
             return $this->forward(
@@ -55,7 +60,7 @@ class MainController extends Controller
      */
     protected function findRoute()
     {
-        $this->route = '/';
+        $this->requestedRoute = '/';
         $routeParts = array();
         for ($i = 1; $i <= Route::ROUTE_SEGMENTS_COUNT; $i++) {
             $partValue = $this->request->get('p' . $i);
@@ -63,13 +68,21 @@ class MainController extends Controller
                 $routeParts[] = $partValue;
             }
         }
-        $this->route .= implode('/', $routeParts);
+        $this->requestedRoute .= implode('/', $routeParts);
 
-        $route = $this->em->getRepository('SuperStructureBundle:Route')->findOneBy(array('route' => $this->route));
+        $route = $this->em->getRepository('SuperStructureBundle:Route')->findOneBy(array('route' => $this->requestedRoute));
 
         // identify object
         if (!($route instanceof Route)) {
-            throw new NotFoundHttpException('Route not found');
+            $route = $this->em->getRepository('SuperStructureBundle:Route')->findOneBy(array('route' => '/'));
+            if (!($route instanceof Route)) {
+                throw new NotFoundHttpException('Route not found');
+            }
+
+            /** @var $logger LoggerInterface */
+            $logger = $this->get('logger');
+            $logger->error(sprintf('Route %s not exists. Switched to root(/) route.', $this->requestedRoute));
+
         }
         return $route;
     }
