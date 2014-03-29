@@ -58,7 +58,7 @@ class SuperStructureTwigExtension extends \Twig_Extension
             /** @var $vc ViewComponent */
             $vc = $this->dm->getRepository('SuperStructureBundle:ViewComponent')->findOneBy(array('system_key' => $name));
 
-            $cName = $vc->getController() . 'Controller';
+            $cName = $vc->getController();
             $cAction = $vc->getAction() . 'Action';
 
             /** @var $controller Controller */
@@ -69,7 +69,7 @@ class SuperStructureTwigExtension extends \Twig_Extension
 
             return $res->getContent();
         } catch (\Exception $e) {
-           return $e->getMessage();
+            return $e->getMessage();
         }
     }
 

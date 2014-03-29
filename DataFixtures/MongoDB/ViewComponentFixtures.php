@@ -34,9 +34,9 @@ class ViewComponentFixtures extends AbstractFixture implements OrderedFixtureInt
         $viewComponent = new ViewComponent();
         $viewComponent->setName('Mark favorite');
         $viewComponent->setSystemKey('product-mark-favorite');
-        $viewComponent->setController('Tormit\Bundle\SuperStructureBundle\Controller\Product');
+        $viewComponent->setController('Tormit\Bundle\SuperStructureBundle\ViewComponent\ProductViewComponent');
         $viewComponent->setBundle('SuperStructureBundle');
-        $viewComponent->setAction('vcMarkFavorite');
+        $viewComponent->setAction('markFavorite');
         $viewComponent->setRequiredParameters(array('product-id'));
 
         $manager->persist($viewComponent);
