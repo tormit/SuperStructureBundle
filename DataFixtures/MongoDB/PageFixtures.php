@@ -27,21 +27,32 @@ class PageFixtures extends AbstractFixture implements OrderedFixtureInterface
         $page = new Page();
         $page->setTitle('Avaleht');
         $page->setContent('Tere tulemast!');
+        $manager->persist($page);
 
         $page2 = new Page();
         $page2->setTitle('Tooted');
         $page2->setContent(
               'Tootekataloog'
         );
-
-        $manager->persist($page);
         $manager->persist($page2);
+
+        $pageAbout = new Page();
+        $pageAbout->setTitle('Meist');
+        $pageAbout->setContent('Meist');
+        $manager->persist($pageAbout);
+
+        $pageContact = new Page();
+        $pageContact->setTitle('Kontakt');
+        $pageContact->setContent('Kontakt');
+        $manager->persist($pageContact);
+
 
         $manager->flush();
         Route::makeRoot($manager, $page);
         Route::make($manager, array($page));
         Route::make($manager, array($page2));
         Route::make($manager, array($page, $page2));
+        Route::make($manager, array($pageAbout, $pageContact));
         $manager->flush();
     }
 

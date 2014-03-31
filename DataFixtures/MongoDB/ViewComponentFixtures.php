@@ -38,8 +38,16 @@ class ViewComponentFixtures extends AbstractFixture implements OrderedFixtureInt
         $viewComponent->setBundle('SuperStructureBundle');
         $viewComponent->setAction('markFavorite');
         $viewComponent->setRequiredParameters(array('product-id'));
-
         $manager->persist($viewComponent);
+
+        $viewComponent2 = new ViewComponent();
+        $viewComponent2->setName('User box');
+        $viewComponent2->setSystemKey('user-box');
+        $viewComponent2->setController('Tormit\Bundle\SuperStructureBundle\ViewComponent\UserViewComponent');
+        $viewComponent2->setBundle('SuperStructureBundle');
+        $viewComponent2->setAction('userBox');
+        $viewComponent2->setRequiredParameters();
+        $manager->persist($viewComponent2);
 
         $manager->flush();
         Route::make($manager, array($productsPage, $viewComponent));

@@ -42,7 +42,7 @@ class MainController extends Controller
         $routedDocument = $route->getLeaf();
 
         if ($this->requestedRoute !== $route->getRoute()) {
-            return $this->redirect($this->generateUrl('super_structure_main'));
+            return $this->redirect($this->generateUrl('super_structure_main', $route->getSlugPathForRouter()));
         }
 
 
@@ -94,8 +94,15 @@ class MainController extends Controller
             /** @var $logger LoggerInterface */
             $logger = $this->get('logger');
             $logger->error(sprintf('Route %s not exists. Switched to root(/) route.', $this->requestedRoute));
-
         }
+
+        if (!$route->getIsValid() || !$route->getIsActive() || $route->getLeaf() === null) {
+            $route = $route->getNewRoute();
+            if (!($route instanceof Route)) {
+                throw new NotFoundHttpException('Requested route is invalid. New route not set.');
+            }
+        }
+
         return $route;
     }
 }

@@ -31,6 +31,11 @@ class Route
     private $route;
 
     /**
+     * @MongoDB\ReferenceOne(targetDocument="Route")
+     */
+    private $new_route;
+
+    /**
      * @MongoDB\ReferenceOne
      */
     private $leaf;
@@ -120,23 +125,31 @@ class Route
             $routeObj->setRoute($routePathString);
         }
 
-        $leafKey = null;
-        for ($i = 1; $i <= self::ROUTE_SEGMENTS_COUNT; $i++) {
-            $m = 'setObject' . $i;
-            if (isset($objects[$i - 1])) {
-                $leafKey = $i - 1;
-                $routeObj->$m($objects[$i - 1]);
-            } else {
-                $routeObj->$m(null);
-            }
-        }
-        if ($leafKey !== null) {
-            $routeObj->setLeaf($objects[$leafKey]);
-        }
-
+        $routeObj->setObjectChain($objects);
 
         $dm->persist($routeObj);
         $dm->flush();
+    }
+
+    public function setObjectChain(array $objects = array())
+    {
+        $leafKey = null;
+        for ($i = 1; $i <= self::ROUTE_SEGMENTS_COUNT; $i++) {
+            $i0 = $i - 1;
+            $m = 'setObject' . $i;
+            if (isset($objects[$i0])) {
+                if (!($objects[$i0] instanceof RoutedDocument)) {
+                    throw new \Exception('Value nr ' . $i . ' not RoutedDocument.');
+                }
+                $leafKey = $i0;
+                $this->$m($objects[$i0]);
+            } else {
+                $this->$m(null);
+            }
+        }
+        if ($leafKey !== null) {
+            $this->setLeaf($objects[$leafKey]);
+        }
     }
 
     public static function makeRoot(ObjectManager $dm, RoutedDocument $object)
@@ -149,11 +162,38 @@ class Route
             $routeObj->setRoute($routePathString);
         }
 
-        $routeObj->setObject1($object);
-        $routeObj->setLeaf($object);
+        $routeObj->setObjectChain(array($object));
 
         $dm->persist($routeObj);
         $dm->flush();
+    }
+
+    public function getSlugPathForRouter()
+    {
+        $ar = array();
+        $i = 1;
+        foreach ($this->getSlugPath() as $slug) {
+            $ar['p' . $i] = $slug;
+            $i++;
+        }
+
+        return $ar;
+    }
+
+    public function getSlugPath($glue = null)
+    {
+        $path = array();
+        for ($i = 1; $i <= self::ROUTE_SEGMENTS_COUNT; $i++) {
+            $i0 = $i - 1;
+            $m = 'getObject' . $i;
+
+            $o = $this->$m();
+            if ($o instanceof RoutedDocument) {
+                $path[] = $o->getIdentifier();
+            }
+        }
+
+        return is_string($glue) ? implode($glue, $path) : $path;
     }
 
     /**
@@ -505,6 +545,16 @@ class Route
     }
 
     /**
+     * Get isActive
+     *
+     * @return boolean $isActive
+     */
+    public function getIsActive()
+    {
+        return $this->is_active;
+    }
+
+    /**
      * Set isActive
      *
      * @param boolean $isActive
@@ -517,13 +567,13 @@ class Route
     }
 
     /**
-     * Get isActive
+     * Get isValid
      *
-     * @return boolean $isActive
+     * @return boolean $isValid
      */
-    public function getIsActive()
+    public function getIsValid()
     {
-        return $this->is_active;
+        return $this->is_valid;
     }
 
     /**
@@ -539,12 +589,24 @@ class Route
     }
 
     /**
-     * Get isValid
+     * Get newRoute
      *
-     * @return boolean $isValid
+     * @return Route $newRoute
      */
-    public function getIsValid()
+    public function getNewRoute()
     {
-        return $this->is_valid;
+        return $this->new_route;
+    }
+
+    /**
+     * Set newRoute
+     *
+     * @param Route $newRoute
+     * @return self
+     */
+    public function setNewRoute(Route $newRoute)
+    {
+        $this->new_route = $newRoute;
+        return $this;
     }
 }
